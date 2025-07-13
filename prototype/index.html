@@ -8,16 +8,28 @@
 <body>
   <div id="game-container">
     <div id="main-area">
-      <div id="map"></div>
-      <div id="log"></div>
-    </div>
-    <div id="ui-bar">
-      <button id="char-info-btn">Character Info</button>
-      <button id="back-btn">Back to Overworld</button>
+      <div id="map-area">
+        <div id="menu-bar">
+        <div id="time"></div>
+        <button id="char-info-btn">Character Info</button>
+        <button>Option 2</button>
+        <button>Option 3</button>
+        <button>Option 4</button>
+        <button id="back-btn" style="display: none;">Back to Overworld</button>
+        </div>
+
+        <div id="map"></div>
+      </div>
+      <div>
+        <div id="inventory">
+          <h3>Inventory</h3>
+          <ul id="inventory-list"></ul>
+        </div>
+        <div id="log"></div>
+      </div>
     </div>
     <div id="info"></div>
   </div>
-
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

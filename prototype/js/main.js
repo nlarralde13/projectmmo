@@ -1,24 +1,26 @@
 import { renderOverworld } from './maps/overworld/overworld.js';
 import { initUI, addLog } from './ui/ui.js';
 import { initTime } from './systems/time.js';
+import { generateInventory } from './items/inventory.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Checking for back-btn:", document.getElementById("back-btn"));
-
-  // Now that DOM is loaded, get the button once
   const backBtn = document.getElementById("back-btn");
+  const charBtn = document.getElementById("char-info-btn");
 
-  if (!backBtn) {
-    console.error("CRITICAL: #back-btn does NOT exist in DOM!");
+  if (!backBtn || !charBtn) {
+    console.error("Menu buttons not found in DOM!");
     return;
   }
 
-  // Init your UI and overworld
   renderOverworld();
   initUI();
   initTime();
+  generateInventory();
 
-  // Back to Overworld functionality
+  charBtn.addEventListener("click", () => {
+    addLog("Character info not implemented yet.");
+  });
+
   backBtn.addEventListener("click", () => {
     renderOverworld();
     backBtn.style.display = "none";

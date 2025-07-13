@@ -46,11 +46,7 @@ export function renderOverworld() {
     return;
   }
 
-  // Hide the back button when returning to overworld
-  const backBtn = document.getElementById("back-btn");
-  if (backBtn) {
-    backBtn.style.display = "none";
-  }
+
 
   mapDiv.innerHTML = ""; // clear previous map
 
@@ -89,6 +85,8 @@ export function renderOverworld() {
             tile.style.background = '#999'; // fallback color
         }
       }
+      mapDiv.style.gridTemplateColumns = `repeat(5, 1fr)`;
+      mapDiv.style.gridTemplateRows = `repeat(5, 1fr)`;
 
       tile.addEventListener("click", () => {
         if (zone.type === 'water') {
