@@ -1,4 +1,4 @@
-import { addLog } from './ui.js';
+import { addLog } from './ui/ui.js';
 
 
 export function initMap() {

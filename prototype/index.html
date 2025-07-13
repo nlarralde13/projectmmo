@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Ugly UI Prototype</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <div id="map"></div>
-        <div id="info"></div>
-        <div id="ui-bar"></div>
-        <div id="log"></div>
+<head>
+  <meta charset="UTF-8" />
+  <title>MMO Prototype</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="game-container">
+    <div id="main-area">
+      <div id="map"></div>
+      <div id="log"></div>
+    </div>
+    <div id="ui-bar">
+      <button id="char-info-btn">Character Info</button>
+      <button id="back-btn">Back to Overworld</button>
+    </div>
+    <div id="info"></div>
+  </div>
 
-
-        <script type="module" src="js/main.js"></script>
-    </body>
+  <script type="module" src="js/main.js"></script>
+</body>
 </html>

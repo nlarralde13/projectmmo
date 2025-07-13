@@ -1,18 +1,45 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f5f2f2;
+}
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #map {
   display: grid;
-  grid-template-columns: repeat(5, 40px);
+  grid-template-columns: repeat(5,1fr); /* will fill 640px width later */
+  grid-template-rows: repeat(5,1fr); /*control height directionly */
+  width: 640px;
+  height: 480px;
+  border: 8px solid black;
+  background: #333;
   grid-gap: 2px;
+  box-sizing: border-box;
+}
+
+#main-area {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .tile {
   border: 1px solid #999;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  line-height: 40px;
-  background: #eee;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
+  box-sizing: border-box;
 }
+
+
 
 #info, #ui-bar, #log {
   margin-top: 10px;
@@ -21,6 +48,28 @@
 }
 
 #log {
-  height: 100px;
+  width: 320px;
+  height: 240px;  /* half the map height */
+  background: #000; /* black terminal background */
+  color: #0f0;      /* green text like an old CRT */
+  font-family: monospace;
+  font-size: 14px;
+  padding: 10px;
   overflow-y: auto;
+  border: 4px solid #0f0; /* green terminal style border */
+  box-sizing: border-box;
+}
+
+
+#ui-bar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#ui-bar button {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
 }
