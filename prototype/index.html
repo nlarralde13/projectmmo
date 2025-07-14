@@ -8,25 +8,21 @@
 <body>
   <div id="game-container">
     <div id="main-area">
+      <div id="character-panel"></div>
       <div id="map-area">
         <div id="menu-bar">
-        <div id="time"></div>
-        <button id="char-info-btn">Character Info</button>
-        <button>Option 2</button>
-        <button>Option 3</button>
-        <button>Option 4</button>
-        <button id="back-btn" style="display: none;">Back to Overworld</button>
+          <button id="calendar-btn">Calendar</button>
+          <button id="char-info-btn">Character</button>
+          <button id="map-btn">Map</button>
+          <button id="inventory-btn">Inventory</button>
+          <button id="reset-world-btn">Reset World</button>
         </div>
-
-        <div id="map"></div>
-      </div>
-      <div>
-        <div id="inventory">
-          <h3>Inventory</h3>
-          <ul id="inventory-list"></ul>
+        <div id="view-port"></div>
+        <div id="input-bar">
+          <input type="text" id="command-input" placeholder="Enter your character name...">
         </div>
-        <div id="log"></div>
       </div>
+      <div id="log"></div>
     </div>
     <div id="info"></div>
   </div>

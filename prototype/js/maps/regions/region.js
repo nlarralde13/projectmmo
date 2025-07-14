@@ -1,105 +1,67 @@
-import { addLog } from "../../ui/ui.js";
+import { generateRoom } from '../../generation/roomGenerator.js';
+import { renderRoom } from '../renderRoom.js';
 
-/**
- * Generates a random 2D region map array based on biome.
- * Each cell is a tile type (string) or null (empty space).
- */
-export function generateRegion(biome) {
-  const width = Math.floor(Math.random() * 5) + 2;  // 2-6
-  const height = Math.floor(Math.random() * 5) + 2; // 2-6
-
-  const region = [];
-  for (let y = 0; y < height; y++) {
-    const row = [];
-    for (let x = 0; x < width; x++) {
-      if (Math.random() < 0.7) {  // ~70% chance to place a tile
-        switch (biome) {
-          case 'desert':
-            row.push(Math.random() < 0.5 ? 'sand' : 'rock');
-            break;
-          case 'forest':
-            row.push(Math.random() < 0.5 ? 'grass' : 'trees');
-            break;
-          case 'swamp':
-            row.push(Math.random() < 0.5 ? 'mud' : 'grass');
-            break;
-          case 'arctic':
-            row.push(Math.random() < 0.5 ? 'snow' : 'ice');
-            break;
-          default:
-            row.push('grass');
-        }
-      } else {
-        row.push(null); // empty space, part of irregular shape
-      }
-    }
-    region.push(row);
-  }
-  return region;
-}
-
-/**
- * Renders a given 2D region array inside the #map container.
- * Adjusts grid size dynamically, displays tiles by type,
- * and ensures the back button becomes visible.
- */
-export function renderRegion(region) {
-  const mapDiv = document.getElementById("map");
-  const backBtn = document.getElementById("back-btn");
-
-  if (!mapDiv) {
-    console.error("CRITICAL: #map not found in DOM.");
+export function renderRegion(viewPort, zone) {
+  if (!viewPort) {
+    console.error("CRITICAL: #view-port not found in DOM.");
     return;
   }
 
-  // Always make sure back button is shown in region view
-  if (backBtn) {
-    backBtn.style.display = "inline-block";
-  } else {
-    console.error("CRITICAL: #back-btn not found in DOM.");
+  console.log(`Generating region inside ${zone.biome} zone...`);
+
+  viewPort.innerHTML = "";
+  viewPort.style.display = "flex";
+  viewPort.style.justifyContent = "center";
+  viewPort.style.alignItems = "center";
+
+  const width = Math.floor(Math.random() * 2) + 3;  // 3-4
+  const height = Math.floor(Math.random() * 2) + 3;
+  console.log(`Generated region size: ${width}x${height}`);
+
+  const regionContainer = document.createElement("div");
+  regionContainer.style.width = "80%";
+  regionContainer.style.height = "80%";
+  regionContainer.style.border = "4px solid #fff";
+  regionContainer.style.display = "grid";
+  regionContainer.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
+  regionContainer.style.gridTemplateRows = `repeat(${height}, 1fr)`;
+  regionContainer.style.gap = "2px";
+  regionContainer.style.boxSizing = "border-box";
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.style.background = randomRegionColor(zone.biome);
+
+      tile.addEventListener("click", () => {
+        console.log(`Clicked inside region at (${y},${x}), generating room...`);
+        const room = generateRoom({
+          width: 6,
+          height: 6,
+          mustHaveExitNorth: true,
+          monsterDensity: 0.2,
+          itemDensity: 0.15
+        });
+        renderRoom(viewPort, room);
+      });
+
+      regionContainer.appendChild(tile);
+    }
   }
 
-  // Set up grid to match region dimensions
-  mapDiv.innerHTML = "";
-  mapDiv.style.gridTemplateColumns = `repeat(${region[0].length}, 1fr)`;
-  mapDiv.style.gridTemplateRows = `repeat(${region.length}, 1fr)`;
+  viewPort.appendChild(regionContainer);
+}
 
-  // Populate grid with tiles
-  region.forEach((row, y) => {
-    row.forEach((tile, x) => {
-      if (tile !== null) {
-        const div = document.createElement("div");
-        div.className = "tile";
-
-        // Color tiles based on type
-        switch (tile) {
-          case 'grass':
-          case 'trees':
-            div.style.background = '#2ecc71';
-            break;
-          case 'sand':
-          case 'rock':
-            div.style.background = '#f1c40f';
-            break;
-          case 'mud':
-            div.style.background = '#7f8c8d';
-            break;
-          case 'snow':
-          case 'ice':
-            div.style.background = '#ecf0f1';
-            break;
-          default:
-            div.style.background = '#999'; // fallback color
-        }
-
-        // Example interaction: log area type & coords
-        div.addEventListener("click", () => {
-          addLog(`You enter a ${tile} area at (${y},${x}).`);
-          // Future: spawn monsters, start loot checks, show room details...
-        });
-
-        mapDiv.appendChild(div);
-      }
-    });
-  });
+function randomRegionColor(biome) {
+  switch (biome) {
+    case 'forest': return '#2ecc71';
+    case 'desert': return '#f1c40f';
+    case 'swamp': return '#27ae60';
+    case 'arctic': return '#ecf0f1';
+    case 'plains': return '#95a5a6';
+    case 'jungle': return '#16a085';
+    case 'mountains': return '#7f8c8d';
+    default: return '#999';
+  }
 }

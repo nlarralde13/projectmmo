@@ -1,7 +1,7 @@
 export function initTime() {
-  const uiBar = document.getElementById("time");
-  if (!uiBar) {
-    console.error("CRITICAL: #time element not found in DOM.");
+  const timeBtn = document.getElementById("time-btn");
+  if (!timeBtn) {
+    console.error("CRITICAL: #time-btn element not found in DOM.");
     return;
   }
 
@@ -14,9 +14,9 @@ export function initTime() {
       hours = 0;
       day += 1;
     }
-    uiBar.textContent = `Day ${day}, ${hours}:00`;
+    timeBtn.textContent = `Day ${day}, ${hours}:00`;
   }
 
-  updateTime(); // initial display
-  setInterval(updateTime, 2000); // tick every 2 seconds
+  updateTime();
+  setInterval(updateTime, 300000); //300k MS = 5 min : game
 }
