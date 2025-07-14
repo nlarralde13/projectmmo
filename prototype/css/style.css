@@ -127,3 +127,18 @@ body {
   width: 960px;
   box-sizing: border-box;
 }
+
+#region-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 640px;
+  height: 480px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.8); /* or remove for just map */
+  border: 2px solid #999;
+  display: none; /* hidden until opened */
+  z-index: 1000;
+  box-sizing: border-box;
+}
+

@@ -1,5 +1,6 @@
 import { generateTerrain } from '../../generation/terrainGenerator.js';
 import { renderRegion } from '../../maps/regions/regionGenerator.js';
+import { renderZoomedOverworldArea } from '../../zoomView.js';
 
 
 export function renderOverworld(viewPort, options = {}) {
@@ -74,13 +75,17 @@ overworld.forEach((row, y) => {
       tile.style.background = getBiomeColor(zone.biome);
     }
 
+
+
+    //MAP ZOOM
     tile.addEventListener("click", () => {
       if (zone.type === 'land') {
-        renderRegion(viewPort, zone);
-      } else {
-        console.log("You can't explore the water.");
-      }
-    });
+        const overlay = document.getElementById("region-overlay");
+    renderZoomedOverworldArea(overlay, overworld, x, y, 2, () => renderOverworld(viewPort));
+  }
+});
+
+
 
     viewPort.appendChild(tile);
   });

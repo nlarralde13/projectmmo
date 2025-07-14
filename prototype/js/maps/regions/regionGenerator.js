@@ -1,13 +1,13 @@
 // === REGION GENERATOR MODULE ===
-// This creates and renders detailed region maps for each overworld tile.
+// This generates and renders detailed local region maps in an overlay
+// that floats above your main overworld map.
 
 export function generateRegion(tile) {
   /**
-   * Generates a small local region map (like a zoomed-in chunk)
-   * based on the biome of the overworld tile. 
-   * The result is stored directly in tile.regionMap for easy persistence.
+   * Creates a 20x20 region map based on the biome of the overworld tile.
+   * The generated map is stored in tile.regionMap for persistence.
    */
-  const size = 20; // 20x20 mini map
+  const size = 20;
   const regionMap = [];
 
   for (let y = 0; y < size; y++) {
@@ -22,10 +22,11 @@ export function generateRegion(tile) {
   return regionMap;
 }
 
+
 function generateLocalTerrain(biome) {
   /**
-   * Creates a basic terrain type based on the region's parent biome.
-   * Later we can expand this to include rivers, clearings, ruins, etc.
+   * Creates terrain type based on parent biome.
+   * Can expand later for rivers, ruins, local resources.
    */
   switch (biome) {
     case 'forest':
@@ -42,10 +43,11 @@ function generateLocalTerrain(biome) {
   }
 }
 
-export function renderRegion(viewPort, tile) {
+
+export function renderRegion(overlay, tile) {
   /**
-   * Given a tile (with x,y,biome), loads or generates its local region,
-   * then renders it into the same viewPort.
+   * Renders the detailed local region inside a 640x480 overlay div
+   * without removing the underlying overworld. 
    */
   let regionMap = tile.regionMap;
   if (!regionMap) {
@@ -55,18 +57,41 @@ export function renderRegion(viewPort, tile) {
 
   console.log(`Rendering region: ${regionMap[0].length} cols x ${regionMap.length} rows for biome ${tile.biome}`);
 
-  // === CONFIGURE VIEWPORT FOR REGION ===
-  viewPort.innerHTML = "";
-  viewPort.style.display = "grid";
-  viewPort.style.width = "720px";   // region is always square here
-  viewPort.style.height = "720px";
-  viewPort.style.gridTemplateColumns = `repeat(${regionMap[0].length}, 1fr)`;
-  viewPort.style.gridTemplateRows = `repeat(${regionMap.length}, 1fr)`;
-  viewPort.style.border = "2px solid #333";
-  viewPort.style.gap = "0";
-  viewPort.style.padding = "0";
-  viewPort.style.margin = "0";
-  viewPort.style.boxSizing = "border-box";
+  // === PREPARE OVERLAY CONTAINER ===
+  overlay.innerHTML = "";
+  overlay.style.display = "block";
+  overlay.style.position = "absolute";
+  overlay.style.top = "50%";
+  overlay.style.left = "50%";
+  overlay.style.transform = "translate(-50%, -50%)";
+  overlay.style.width = "640px";
+  overlay.style.height = "480px";
+  overlay.style.background = "rgba(0,0,0,0.85)";
+  overlay.style.border = "2px solid #999";
+  overlay.style.boxSizing = "border-box";
+  overlay.style.padding = "10px";
+  overlay.style.zIndex = "1000";
+
+  // === ADD CLOSE BUTTON ===
+  const closeBtn = document.createElement("button");
+  closeBtn.innerText = "← Back to Overworld";
+  closeBtn.style.marginBottom = "8px";
+  closeBtn.style.padding = "6px 12px";
+  closeBtn.style.fontSize = "14px";
+  closeBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+  });
+  overlay.appendChild(closeBtn);
+
+  // === CONFIGURE REGION GRID ===
+  const gridContainer = document.createElement("div");
+  gridContainer.style.display = "grid";
+  gridContainer.style.width = "100%";
+  gridContainer.style.height = "calc(100% - 40px)"; // adjust for button
+  gridContainer.style.gridTemplateColumns = `repeat(${regionMap[0].length}, 1fr)`;
+  gridContainer.style.gridTemplateRows = `repeat(${regionMap.length}, 1fr)`;
+  gridContainer.style.border = "2px solid #333";
+  gridContainer.style.boxSizing = "border-box";
 
   // === RENDER REGION CELLS ===
   regionMap.forEach((row, y) => {
@@ -75,26 +100,26 @@ export function renderRegion(viewPort, tile) {
       tile.style.width = "100%";
       tile.style.height = "100%";
       tile.style.boxSizing = "border-box";
-      tile.style.border = "1px solid rgba(0,0,0,0.1)";
+      tile.style.border = "1px solid rgba(255,255,255,0.1)";
       tile.style.background = getRegionColor(cell.terrain);
-
-      // Simple tooltip on hover
       tile.title = `(${x},${y}) - ${cell.terrain}`;
 
-      viewPort.appendChild(tile);
+      // === FUTURE EXPANSION HOOKS ===
+      // attachHoverOverlay(tile, cell);
+      // enableResourceClicks(tile, cell);
+      // spawnLocalCreatures(tile, cell);
+
+      gridContainer.appendChild(tile);
     });
   });
 
-  // === PLACEHOLDER FUTURE HOOKS ===
-  // spawnLocalCreatures(regionMap);
-  // placeLocalLoot(regionMap);
-  // generateStructures(regionMap);
+  overlay.appendChild(gridContainer);
 }
+
 
 function getRegionColor(terrain) {
   /**
    * Simple color palette for terrain types.
-   * This lets you visually distinguish different features.
    */
   switch (terrain) {
     case 'trees': return '#2ecc71';
