@@ -1,0 +1,28 @@
+# 🛠️ Browser MMO — ProtoV2 Kickoff (Phase 2)
+
+✅ **Phase 1 (ProtoV1) Complete:**
+- Built initial procedural overworld (100x100) with rivers, mountains, swamps, basic biomes.
+- Added CSS Grid renderer and overlay system for zoom views (5x5) and region maps (20x20).
+- Modularized key systems: terrainGenerator, overworld.js, zoomView.js, regionGenerator.js.
+
+---
+
+🚀 **Phase 2 (ProtoV2):**
+- Formalize file structure for scalability.
+- Externalize biome + settlement configs (JSON or DB).
+- Re-implement terrain + settlement generation under new architecture.
+- Prepare for interactive travel and settlement systems.
+
+---
+
+🗂 **New structure:**
+- `/core` → all game systems
+- `/ui` → overlays, minimap, tooltips
+- `/assets/config` → JSON for biomes, settlements, items
+- `/utils` → prng, noise, pathfinding
+- `/data` → later: saves, world snapshots
+
+---
+
+💪 **Strategy:**
+Refactor piece by piece, migrating files + rewriting where needed for clarity.

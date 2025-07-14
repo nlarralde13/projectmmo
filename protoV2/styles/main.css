@@ -1,0 +1,31 @@
+body {
+  background: #111;
+  color: #eee;
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+#game-container div {
+  image-rendering: pixelated;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+body {
+  background: #111;
+  color: #eee;
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding-top: 60px; /* reserved UI area */
+  margin: 0;
+}
+
+#game-container {
+  display: inline-block;
+  border: 2px solid #555;
+}
+

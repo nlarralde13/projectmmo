@@ -1,0 +1,12 @@
+# Ignore node modules and system files
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Ignore any tools or temporary build output
+dist/
+.vscode/
+.env
+
+# Ignore your images if you only want to sync code
+src/assets/images/

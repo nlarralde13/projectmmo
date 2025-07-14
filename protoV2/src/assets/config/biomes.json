@@ -1,0 +1,51 @@
+{
+  "_comment": "This file defines the biome generation parameters for the overworld. You can add new biomes easily by following the existing structure.",
+  
+  "forest": {
+    "weight": 30,
+    "minSize": 20,
+    "maxSize": 80,
+    "color": "#228B22",
+    "features": ["trees", "herbs", "deer"]
+  },
+
+  "desert": {
+    "weight": 20,
+    "minSize": 10,
+    "maxSize": 50,
+    "color": "#EDC9AF",
+    "features": ["cactus", "sand dunes", "snakes"]
+  },
+
+  "swamp": {
+    "weight": 10,
+    "minSize": 5,
+    "maxSize": 20,
+    "color": "#556B2F",
+    "features": ["mud pools", "reeds"]
+  },
+
+  "tundra": {
+    "weight": 5,
+    "minSize": 5,
+    "maxSize": 15,
+    "color": "#E0FFFF",
+    "features": ["ice", "wolves"]
+  },
+
+  "volcanic": {
+    "weight": 2,
+    "minSize": 3,
+    "maxSize": 10,
+    "color": "#8B0000",
+    "features": ["lava", "obsidian"]
+  },
+
+  "_example_new_biome": {
+    "weight": 1,
+    "minSize": 2,
+    "maxSize": 5,
+    "color": "#ff69b4",
+    "features": ["example feature"]
+  }
+}

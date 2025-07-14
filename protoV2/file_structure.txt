@@ -1,0 +1,29 @@
+/browser-mmo
+│
+├── index.html
+├── vite.config.js
+│
+├── src/
+│   ├── main.js          <-- entry point
+│   ├── core/
+│   │   ├── terrainGenerator.js
+│   │   ├── settlementPlacer.js
+│   │   ├── zoomView.js
+│   │   └── regionGenerator.js
+│   ├── ui/
+│   │   ├── overlayManager.js
+│   │   └── minimap.js
+│   ├── utils/
+│   │   └── prng.js
+│   └── assets/
+│       ├── config/
+│       │   └── biomes.json
+│       ├── images/
+│       └── fonts/
+│
+├── styles/
+│   └── main.css
+│
+├── package.json
+├── .eslintrc.json
+└── .prettierrc

@@ -1,0 +1,39 @@
+{
+  "_comment": "Extended with size categories and max per quadrant/map.",
+  
+  "wagon": {
+    "sizeCategory": "micro",
+    "minSize": 2,
+    "maxSize": 5,
+    "typicalPopulation": [1, 4],
+    "allowedBiomes": ["plains", "forest", "tundra"],
+    "maxPerMap": 50
+  },
+
+  "village": {
+    "sizeCategory": "medium",
+    "minSize": 10,
+    "maxSize": 20,
+    "typicalPopulation": [10, 50],
+    "allowedBiomes": ["plains", "forest"],
+    "maxPerMap": 20
+  },
+
+  "capital": {
+    "sizeCategory": "jumbo",
+    "minSize": 50,
+    "maxSize": 100,
+    "typicalPopulation": [500, 2000],
+    "allowedBiomes": ["plains"],
+    "maxPerMap": 3
+  },
+
+  "kingdom": {
+    "sizeCategory": "mega",
+    "minSize": 100,
+    "maxSize": 150,
+    "typicalPopulation": [3000, 10000],
+    "allowedBiomes": ["plains"],
+    "maxPerQuadrant": 1
+  }
+}
