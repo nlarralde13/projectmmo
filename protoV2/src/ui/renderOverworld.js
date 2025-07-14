@@ -1,66 +1,100 @@
-console.log("✅ Loaded renderOverworld.js");
+import { getTileAt } from '../core/terrainGenerator.js';
 
-export function renderOverworldMapViewport(container, map, cameraX, cameraY, viewportWidth, viewportHeight) {
-  if (!container || !map) {
-    console.error("❌ renderOverworldMapViewport missing container or map.");
-    return;
-  }
+const container = document.getElementById('game-container');
+const canvas = document.getElementById('overworld');
+const ctx = canvas.getContext('2d');
 
-  container.innerHTML = '';
+const tileSize = 16;
+let cameraX = 0;
+let cameraY = 0;
 
-  const grid = document.createElement('div');
-  grid.style.display = 'grid';
-  grid.style.gridTemplateColumns = `repeat(${viewportWidth}, 16px)`;
-  grid.style.gridGap = '1px';
-  grid.style.border = '3px solid #888';
+let targetCameraX = 0;
+let targetCameraY = 0;
+let isCameraAnimating = false;
 
-  for (let y = cameraY; y < cameraY + viewportHeight; y++) {
-    for (let x = cameraX; x < cameraX + viewportWidth; x++) {
-      const tile = (map[y] && map[y][x]) || { biome: 'water' };
+let selectedTileX = null;
+let selectedTileY = null;
 
-      const cell = document.createElement('div');
-      cell.style.width = '16px';
-      cell.style.height = '16px';
-      cell.style.backgroundSize = 'cover';
-      cell.style.imageRendering = 'pixelated';
+// Hardcode viewport size
+canvas.width = 1080 - 32;
+canvas.height = 720 - 32;
 
-      let imageName = tile.settlement 
-        ? tile.settlement.type 
-        : tile.biome;
+function renderOverworld() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (hasTileImage(imageName)) {
-        cell.style.backgroundImage = `url('./src/assets/images/tiles/${imageName}.png')`;
-      } else {
-        cell.style.backgroundColor = getFallbackColor(imageName);
-      }
+    const tilesWide = Math.ceil(canvas.width / tileSize);
+    const tilesHigh = Math.ceil(canvas.height / tileSize);
 
-      grid.appendChild(cell);
+    for (let y = 0; y < tilesHigh; y++) {
+        for (let x = 0; x < tilesWide; x++) {
+            const worldX = Math.floor(cameraX + x);
+            const worldY = Math.floor(cameraY + y);
+
+            const tile = getTileAt(worldX, worldY);
+            if (!tile || !tile.sprite) continue;
+
+            ctx.drawImage(tile.sprite, x * tileSize, y * tileSize, tileSize, tileSize);
+        }
     }
-  }
 
-  container.appendChild(grid);
+    // Draw highlight box if a tile is selected
+    if (selectedTileX !== null && selectedTileY !== null) {
+        const highlightX = (selectedTileX - cameraX) * tileSize;
+        const highlightY = (selectedTileY - cameraY) * tileSize;
+
+        ctx.strokeStyle = '#ff0';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(highlightX, highlightY, tileSize, tileSize);
+    }
 }
 
-function hasTileImage(type) {
-  return [
-    'forest', 'desert', 'swamp', 'tundra', 'volcanic', 'plains', 'water',
-    'wagon', 'village', 'capital', 'kingdom'
-  ].includes(type);
+function moveCamera(newX, newY) {
+    cameraX = newX;
+    cameraY = newY;
+    renderOverworld();
 }
 
-function getFallbackColor(type) {
-  switch (type) {
-    case 'forest': return '#228B22';
-    case 'desert': return '#EDC9AF';
-    case 'swamp': return '#556B2F';
-    case 'tundra': return '#E0FFFF';
-    case 'volcanic': return '#8B0000';
-    case 'plains': return '#9ACD32';
-    case 'water': return '#1E90FF';
-    case 'wagon': return '#D2B48C';
-    case 'village': return '#8B4513';
-    case 'capital': return '#FF8C00';
-    case 'kingdom': return '#FFD700';
-    default: return '#000';
-  }
+function animateCamera() {
+    if (!isCameraAnimating) return;
+
+    const speed = 0.1;
+    cameraX += (targetCameraX - cameraX) * speed;
+    cameraY += (targetCameraY - cameraY) * speed;
+
+    cameraX = Math.round(cameraX * 100) / 100;
+    cameraY = Math.round(cameraY * 100) / 100;
+
+    renderOverworld();
+
+    if (Math.abs(cameraX - targetCameraX) < 0.1 && Math.abs(cameraY - targetCameraY) < 0.1) {
+        cameraX = targetCameraX;
+        cameraY = targetCameraY;
+        isCameraAnimating = false;
+        renderOverworld();
+    } else {
+        requestAnimationFrame(animateCamera);
+    }
 }
+
+canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const tileX = Math.floor(mouseX / tileSize);
+    const tileY = Math.floor(mouseY / tileSize);
+
+    const worldX = Math.floor(cameraX + tileX);
+    const worldY = Math.floor(cameraY + tileY);
+
+    selectedTileX = worldX;
+    selectedTileY = worldY;
+
+    targetCameraX = Math.max(0, worldX - Math.floor((canvas.width / tileSize) / 2));
+    targetCameraY = Math.max(0, worldY - Math.floor((canvas.height / tileSize) / 2));
+    isCameraAnimating = true;
+
+    animateCamera();
+});
+
+export { moveCamera, renderOverworld };

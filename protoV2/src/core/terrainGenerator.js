@@ -1,5 +1,39 @@
 console.log("✅ Loaded terrainGenerator.js");
 
+// === SPRITE SYSTEM ===
+export const spriteImages = {};
+
+export function loadAllSprites() {
+  return Promise.all([
+    loadSprite('forest', '/protov2/src/assets/sprites/forest.png'),
+    loadSprite('water', '/protov2/src/assets/sprites/water.png'),
+    loadSprite('desert', '/protov2/src/assets/sprites/desert.png'),
+    loadSprite('mountain', '/protov2/src/assets/sprites/mountain.png')
+  ]);
+}
+
+function loadSprite(biome, src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      spriteImages[biome] = img;
+      console.log(`✅ Loaded sprite for ${biome}`);
+      resolve();
+    };
+    img.onerror = () => {
+      console.error(`❌ Failed to load sprite: ${src}`);
+      reject();
+    };
+    img.src = src;
+  });
+}
+
+function getSpriteForBiome(biome) {
+  return spriteImages[biome] || null;
+}
+  //MAPDATA
+export let mapData = []; // holds global map after generation
+
 export async function generateOverworld(width, height) {
   console.log(`🛠 generateOverworld called with width=${width}, height=${height}`);
 
@@ -13,9 +47,9 @@ export async function generateOverworld(width, height) {
   const biomeData = await res.json();
   console.log("✅ Loaded biomes.json", biomeData);
 
-  // Start map filled with water
+  // Start map filled with water (with sprites)
   const map = Array.from({ length: height }, () =>
-    Array.from({ length: width }, () => ({ biome: 'water' }))
+    Array.from({ length: width }, () => ({ biome: 'water', sprite: getSpriteForBiome('water') }))
   );
 
   // Weighted distribution
@@ -43,7 +77,15 @@ export async function generateOverworld(width, height) {
   generateRivers(map, { count: 5, minLength: 30, maxLength: 60 });
   console.log("✅ Overworld terrain + rivers generated.");
 
+  mapData = map; // update exported mapData reference
   return map;
+}
+
+export function getTileAt(x, y) {
+  if (mapData[y] && mapData[y][x]) {
+    return mapData[y][x];
+  }
+  return null;
 }
 
 function generateRivers(map, options) {
@@ -64,7 +106,7 @@ function generateRivers(map, options) {
 
     for (let i = 0; i < riverLength; i++) {
       if (currentX < 0 || currentX >= width || currentY < 0 || currentY >= height) break;
-      map[currentY][currentX].biome = 'water';
+      map[currentY][currentX] = { biome: 'water', sprite: getSpriteForBiome('water') };
 
       switch (randInt(0, 3)) {
         case 0: currentX++; break;
@@ -95,7 +137,7 @@ function placeBlob(map, biome, size) {
       !visited.has(key) &&
       map[y][x].biome === 'water'
     ) {
-      map[y][x].biome = biome;
+      map[y][x] = { biome: biome, sprite: getSpriteForBiome(biome) };
       visited.add(key);
       count++;
 

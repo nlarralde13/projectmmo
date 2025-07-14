@@ -1,0 +1,67 @@
+{
+  "world": {
+    "tileSizePx": 16,
+    "tileScaleKm": 1,
+    "widthTiles": 500,
+    "heightTiles": 500
+  },
+  "biomes": {
+    "forest": {
+      "minSizeTiles": 20,
+      "maxSizeTiles": 80,
+      "overlap": true
+    },
+    "grassland": {
+      "fillDefault": true
+    },
+    "desert": {
+      "minSizeTiles": 50,
+      "maxSizeTiles": 150,
+      "overlap": true
+    },
+    "mountain": {
+      "minChainLength": 100,
+      "maxChainLength": 200,
+      "linear": true
+    },
+    "lake": {
+      "minSizeTiles": 5,
+      "maxSizeTiles": 30
+    }
+  },
+  "settlements": {
+    "village": {
+      "tileFootprint": 1,
+      "minDistance": 10,
+      "maxDistance": 20
+    },
+    "town": {
+      "tileFootprint": 2,
+      "minDistance": 30,
+      "maxDistance": 50
+    },
+    "city": {
+      "tileFootprint": 5,
+      "minDistance": 100,
+      "maxDistance": 150
+    },
+    "capital": {
+      "tileFootprint": 7,
+      "minDistance": 200
+    }
+  },
+  "rivers": {
+    "minLengthTiles": 100,
+    "maxLengthTiles": 300,
+    "startInMountains": true
+  },
+  "lakes": {
+    "minSizeTiles": 5,
+    "maxSizeTiles": 30
+  },
+  "rules": {
+    "settlementAvoidsMountains": true,
+    "settlementPrefersNearRivers": true,
+    "biomesBlendEdges": true
+  }
+}
