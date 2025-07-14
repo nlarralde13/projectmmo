@@ -13,6 +13,10 @@ console.log("✅ renderOverworld imported successfully.");
 import { initializeCameraControls } from './core/cameraControls.js';
 console.log("Initialized camera controls. ");
 
+//init stats overlay
+import { initStatsOverlay } from './ui/statsOverlay.js';
+console.log('Initialized Stats Overlay.');
+
 
 //generates new overworld terrain
 (async () => {
@@ -34,6 +38,7 @@ console.log("Initialized camera controls. ");
   console.log("✅ Located #game-container.");
 
  // Initialize the camera system (handles keyboard + viewport rendering)
+  initStatsOverlay();
   initializeCameraControls(container, map, renderOverworldMapViewport);
   console.log("✅ Camera controls active. Use WASD or arrow keys to navigate.");
 })();

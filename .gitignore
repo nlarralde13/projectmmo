@@ -1,12 +1,28 @@
-# Ignore node modules and system files
+# === Node / NPM ===
 node_modules/
+package-lock.json
+
+# === Editor folders ===
+.vscode/
+
+# === OS clutter ===
 .DS_Store
 Thumbs.db
 
-# Ignore any tools or temporary build output
+# === Build or dist artifacts ===
 dist/
-.vscode/
-.env
+build/
+.out/
 
-# Ignore your images if you only want to sync code
+# === Environment files ===
+.env
+.env.local
+.env.*
+
+# === Ignore your images (you only want to sync code & configs) ===
 src/assets/images/
+
+# === Logs / debug files ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

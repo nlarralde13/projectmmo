@@ -1,4 +1,8 @@
+import { updateStatsOverlay } from '../ui/statsOverlay.js';
+
 console.log("✅ Loaded cameraControls.js");
+
+
 
 export function initializeCameraControls(container, map, renderer) {
   console.log("🎥 Initializing camera controls...");
@@ -31,6 +35,10 @@ export function initializeCameraControls(container, map, renderer) {
     if (moved) {
       console.log(`🎥 Camera moved to (${cameraX}, ${cameraY})`);
       renderer(container, map, cameraX, cameraY, viewportWidth, viewportHeight);
+      updateStatsOverlay({cameraX, cameraY, viewportWidth, viewportHeight});
+
     }
   });
 }
+
+
