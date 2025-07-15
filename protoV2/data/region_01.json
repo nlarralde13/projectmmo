@@ -1,0 +1,75 @@
+{
+  "worldName": "PrototypeWorld",
+  "seed": 123456,
+  "dimensions": { "width": 25, "height": 25 },
+  "regions": [
+    {
+      "id": "region_1",
+      "name": "The Verdant March",
+      "bounds": { "startX": 0, "startY": 0, "endX": 24, "endY": 24 },
+      "continents": [
+        {
+          "id": "continent_1",
+          "name": "Eldara",
+          "bounds": { "startX": 5, "startY": 5, "endX": 20, "endY": 20 },
+          "biomes": ["forest", "grassland", "hills"],
+          "resourcesSummary": { "wood": 500, "stone": 200 },
+          "tags": ["rich_game", "fertile_soil"]
+        }
+      ],
+      "settlements": [
+        {
+          "id": "settlement_1",
+          "name": "Oakfield",
+          "location": { "x": 10, "y": 12 },
+          "population": 100,
+          "decay": 0,
+          "owner": "neutral",
+          "tags": ["market_town"]
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "id": "chunk_0_0",
+      "bounds": { "startX": 0, "startY": 0, "endX": 12, "endY": 12 },
+      "resourcesSummary": { "wood": 300 },
+      "active": false
+    },
+    {
+      "id": "chunk_1_0",
+      "bounds": { "startX": 13, "startY": 0, "endX": 24, "endY": 12 },
+      "resourcesSummary": { "wood": 200 },
+      "active": false
+    },
+    {
+      "id": "chunk_0_1",
+      "bounds": { "startX": 0, "startY": 13, "endX": 12, "endY": 24 },
+      "resourcesSummary": { "stone": 150 },
+      "active": false
+    },
+    {
+      "id": "chunk_1_1",
+      "bounds": { "startX": 13, "startY": 13, "endX": 24, "endY": 24 },
+      "resourcesSummary": { "stone": 50 },
+      "active": false
+    }
+  ],
+  "tiles": [
+    {
+      "x": 0,
+      "y": 0,
+      "biome": "forest",
+      "tags": ["dense"],
+      "resources": { "wood": 2 },
+      "settlementId": null,
+      "actions": ["forage"]
+    }
+  ],
+  "metadata": {
+    "created": "2025-07-15T14:00:00Z",
+    "lastSaved": "2025-07-15T14:00:00Z",
+    "version": "0.1"
+  }
+}
