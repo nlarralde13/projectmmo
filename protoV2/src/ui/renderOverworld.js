@@ -4,7 +4,7 @@ const container = document.getElementById('game-container');
 const canvas = document.getElementById('overworld');
 const ctx = canvas.getContext('2d');
 
-const tileSize = 16;
+const tileSize = 32;
 let cameraX = 0;
 let cameraY = 0;
 
@@ -24,8 +24,8 @@ let cameraStartY = 0;
 
 
 // Hardcode viewport size
-canvas.width = 640
-canvas.height = 480 
+canvas.width = 1080
+canvas.height = 720 
 
 function renderOverworld() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
