@@ -15,9 +15,17 @@ let isCameraAnimating = false;
 let selectedTileX = null;
 let selectedTileY = null;
 
+//tracking variables
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let cameraStartX = 0;
+let cameraStartY = 0;
+
+
 // Hardcode viewport size
-canvas.width = 1080 - 32;
-canvas.height = 720 - 32;
+canvas.width = 1080; //32
+canvas.height = 720; //32
 
 function renderOverworld() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -76,6 +84,7 @@ function animateCamera() {
     }
 }
 
+//MOUSE CLICK LISTENER
 canvas.addEventListener('click', (e) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
@@ -96,5 +105,40 @@ canvas.addEventListener('click', (e) => {
 
     animateCamera();
 });
+
+//MOUSE EVENT HANDLERS
+canvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    const rect = canvas.getBoundingClientRect();
+    dragStartX = e.clientX - rect.left;
+    dragStartY = e.clientY - rect.top;
+    cameraStartX = cameraX;
+    cameraStartY = cameraY;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const currentX = e.clientX - rect.left;
+    const currentY = e.clientY - rect.top;
+
+    const dx = currentX - dragStartX;
+    const dy = currentY - dragStartY;
+
+    cameraX = cameraStartX - dx / tileSize;
+    cameraY = cameraStartY - dy / tileSize;
+
+    // clamp to 0
+    cameraX = Math.max(0, cameraX);
+    cameraY = Math.max(0, cameraY);
+
+    renderOverworld();
+});
+
+window.addEventListener('mouseup', () => {
+    isDragging = false;
+});
+
 
 export { moveCamera, renderOverworld };

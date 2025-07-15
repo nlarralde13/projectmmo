@@ -1,5 +1,9 @@
 console.log("✅ Loaded terrainGenerator.js");
 
+//imports
+import { generateLandmass } from './landmassGenerator.js';
+
+
 // === SPRITE SYSTEM ===
 export const spriteImages = {};
 
@@ -28,29 +32,43 @@ function loadSprite(biome, src) {
   });
 }
 
-function getSpriteForBiome(biome) {
+export function getSpriteForBiome(biome) {
   return spriteImages[biome] || null;
 }
   //MAPDATA
 export let mapData = []; // holds global map after generation
 
-export async function generateOverworld(width, height) {
+export async function generateOverworld(width, height, options = {}) {
   console.log(`🛠 generateOverworld called with width=${width}, height=${height}`);
 
+  const useLandmass = options.useLandmass ?? false;
+
+  if (useLandmass) {
+    console.log("🌍 Using landmass generator...");
+    const map = generateLandmass(width, height, {
+      targetLandPercentage: options.targetLandPercentage ?? 40,
+      continentSeeds: options.continentSeeds ?? 5
+    });
+    mapData = map;
+    return map;
+  }
+
+   console.log("🌊 Using classic weighted blob generator...");
+  
   if (!width || !height) {
     console.error("❌ Invalid dimensions passed to generateOverworld");
     return [];
   }
-
   // Load biome JSON
   const res = await fetch('./src/assets/config/biomes.json');
   const biomeData = await res.json();
   console.log("✅ Loaded biomes.json", biomeData);
 
   // Start map filled with water (with sprites)
-  const map = Array.from({ length: height }, () =>
-    Array.from({ length: width }, () => ({ biome: 'water', sprite: getSpriteForBiome('water') }))
-  );
+ const map = Array.from({ length: height }, () =>
+  Array.from({ length: width }, () => ({ biome: 'water', sprite: getSpriteForBiome('water') }))
+ );
+
 
   // Weighted distribution
   const biomeEntries = Object.entries(biomeData).filter(([k]) => !k.startsWith('_'));
