@@ -1,4 +1,8 @@
 import { getTileAt } from '../core/terrainGenerator.js';
+import { mapData } from '../core/terrainGenerator.js';
+
+
+
 
 const container = document.getElementById('game-container');
 const canvas = document.getElementById('overworld');
@@ -64,23 +68,36 @@ function renderOverworld() {
     }
 }
 
+//MOVE CAMERA
 function moveCamera(newX, newY) {
-    cameraX = newX;
-    cameraY = newY;
+    const viewportTilesWide = Math.ceil(canvas.width / tileSize);
+    const viewportTilesHigh = Math.ceil(canvas.height / tileSize);
+
+    // Ideally from your generator
+    const mapWidth = mapData[0].length;
+    const mapHeight = mapData.length;
+
+    cameraX = Math.max(0, Math.min(cameraX, mapWidth - viewportTilesWide));
+    cameraY = Math.max(0, Math.min(cameraY, mapHeight - viewportTilesHigh));
+
     renderOverworld();
 }
 
 function animateCamera() {
-    if (!isCameraAnimating) return;
+    const viewportTilesWide = Math.ceil(canvas.width / tileSize);
+    const viewportTilesHigh = Math.ceil(canvas.height / tileSize);
+    const mapWidth = mapData[0].length;
+    const mapHeight = mapData.length;
 
-    const speed = 0.1;
-    cameraX += (targetCameraX - cameraX) * speed;
-    cameraY += (targetCameraY - cameraY) * speed;
+    cameraX += (targetCameraX - cameraX) * 0.1;
+    cameraY += (targetCameraY - cameraY) * 0.1;
 
-    cameraX = Math.round(cameraX * 100) / 100;
-    cameraY = Math.round(cameraY * 100) / 100;
+    cameraX = Math.max(0, Math.min(cameraX, mapWidth - viewportTilesWide));
+    cameraY = Math.max(0, Math.min(cameraY, mapHeight - viewportTilesHigh));
 
     renderOverworld();
+}
+
 
     if (Math.abs(cameraX - targetCameraX) < 0.1 && Math.abs(cameraY - targetCameraY) < 0.1) {
         cameraX = targetCameraX;
@@ -90,7 +107,7 @@ function animateCamera() {
     } else {
         requestAnimationFrame(animateCamera);
     }
-}
+
 
 //MOUSE CLICK LISTENER
 canvas.addEventListener('click', (e) => {

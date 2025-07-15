@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const map = await generateOverworld(100, 100, {
     useLandmass: true,
     targetLandPercentage: 50,
-    continentSeeds: 5
+    continentSeeds: 1
   });
 
   console.log("✅ Overworld generated. Map data is stored in renderer.");
