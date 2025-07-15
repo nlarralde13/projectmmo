@@ -4,9 +4,9 @@ const container = document.getElementById('game-container');
 const canvas = document.getElementById('overworld');
 const ctx = canvas.getContext('2d');
 
-const tileSize = 32;
-let cameraX = 0;
-let cameraY = 0;
+export const tileSize = 32;
+export let cameraX = 0;
+export let cameraY = 0;
 
 canvas.width = 1048;
 canvas.height = 688;
