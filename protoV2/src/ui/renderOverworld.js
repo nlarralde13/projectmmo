@@ -24,11 +24,12 @@ let cameraStartY = 0;
 
 
 // Hardcode viewport size
-canvas.width = 1080; //32
-canvas.height = 720; //32
+canvas.width = 640
+canvas.height = 480 
 
 function renderOverworld() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
     const tilesWide = Math.ceil(canvas.width / tileSize);
     const tilesHigh = Math.ceil(canvas.height / tileSize);
@@ -41,7 +42,14 @@ function renderOverworld() {
             const tile = getTileAt(worldX, worldY);
             if (!tile || !tile.sprite) continue;
 
-            ctx.drawImage(tile.sprite, x * tileSize, y * tileSize, tileSize, tileSize);
+            console.log(`Drawing ${tile.biome} at (${worldX}, ${worldY})`);
+
+            if (tile.sprite.complete && tile.sprite.naturalHeight !== 0) {
+                ctx.drawImage(tile.sprite, x * tileSize, y * tileSize, tileSize, tileSize);
+                } else {
+                    console.log(`Skipping ${tile.biome} — sprite not loaded yet`);
+}
+
         }
     }
 

@@ -1,27 +1,30 @@
-import { loadAllSprites } from './core/terrainGenerator.js';
-import { generateLandmass } from './core/landmassGenerator.js';
+import { loadAllSprites, generateOverworld } from './core/terrainGenerator.js';
+import { renderOverworld, moveCamera } from './ui/renderOverworld.js';
+import { initializeCameraControls } from './core/cameraControls.js';
+import { initStatsOverlay } from './ui/statsOverlay.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log("✅ DOM loaded, now loading sprites...");
+  console.log("✅ DOM loaded, loading sprites...");
   await loadAllSprites();
-  console.log("✅ All sprites loaded.");
+  console.log("✅ Sprites loaded.");
 
-  console.log("🚀 Testing landmass generation...");
-  const map = generateLandmass(100, 100, { targetLandPercentage: 40, continentSeeds: 4 });
-  window.map = map;
-  console.log("🗺️ Landmass map generated and stored in window.map");
-
-  // Count biomes
-  const biomes = map.flat().reduce((acc, tile) => {
-    acc[tile.biome] = (acc[tile.biome] || 0) + 1;
-    return acc;
-  }, {});
-  console.log("🗺️ Biome counts:", biomes);
-
-  // Optional ASCII map print
-  /*console.log("🖥️ Sample ASCII map:");
-  map.slice(0, 10).forEach(row => {
-    console.log(row.map(tile => tile.biome[0]).join(" "));
+  console.log("🚀 Generating overworld with landmass generator...");
+  const map = await generateOverworld(100, 100, {
+    useLandmass: true,
+    targetLandPercentage: 50,
+    continentSeeds: 5
   });
-  */
+
+  console.log("✅ Overworld generated. Map data is stored in renderer.");
+
+  const container = document.getElementById('game-container');
+  if (!container) {
+    console.error("❌ Could not find #game-container in DOM.");
+    return;
+  }
+
+  initStatsOverlay();
+  initializeCameraControls(container, map);
+  renderOverworld();
+  console.log("✅ Camera controls active. Use WASD, click to center, or drag to pan.");
 });

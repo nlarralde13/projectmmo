@@ -9,10 +9,10 @@ export const spriteImages = {};
 
 export function loadAllSprites() {
   return Promise.all([
-    loadSprite('forest', '/protov2/src/assets/sprites/forest.png'),
-    loadSprite('water', '/protov2/src/assets/sprites/water.png'),
-    loadSprite('desert', '/protov2/src/assets/sprites/desert.png'),
-    loadSprite('mountain', '/protov2/src/assets/sprites/mountain.png')
+    loadSprite('forest', '/protoV2/src/assets/sprites/forest.png'),
+    loadSprite('water', '/protoV2/src/assets/sprites/water.png'),
+    loadSprite('desert', '/protoV2/src/assets/sprites/desert.png'),
+    loadSprite('mountain', '/protoV2/src/assets/sprites/mountain.png')
   ]);
 }
 
