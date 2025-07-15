@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   console.log("🚀 Generating overworld with landmass generator...");
   const map = await generateOverworld(100, 100, {
     useLandmass: true,
-    targetLandPercentage: 50,
+    targetLandPercentage: 30,
     continentSeeds: 1
   });
 
