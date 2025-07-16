@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Region Map Schema",
+  "type": "object",
+  "required": ["worldName", "seed", "dimensions", "regions"],
+  "properties": {
+    "worldName": { "type": "string" },
+    "seed": { "type": "string" },
+    "dimensions": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "bounds", "continents"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "bounds": {
+            "type": "object",
+            "required": ["startX", "startY", "endX", "endY"],
+            "properties": {
+              "startX": { "type": "integer" },
+              "startY": { "type": "integer" },
+              "endX": { "type": "integer" },
+              "endY": { "type": "integer" }
+            }
+          },
+          "continents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "name", "bounds"],
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "bounds": {
+                  "type": "object",
+                  "required": ["startX", "startY", "endX", "endY"],
+                  "properties": {
+                    "startX": { "type": "integer" },
+                    "startY": { "type": "integer" },
+                    "endX": { "type": "integer" },
+                    "endY": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created": { "type": "string", "format": "date-time" },
+        "version": { "type": "string" }
+      }
+    }
+  }
+}
